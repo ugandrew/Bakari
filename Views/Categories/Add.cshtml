@@ -1,0 +1,71 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Bakari.Models.Category
+
+@{
+    ViewData["Title"] = "Add";
+}
+
+
+
+
+
+                <!-- // Basic Horizontal form layout section end -->
+                <!-- Basic Vertical form layout section start -->
+                
+                <!-- // Basic Vertical form layout section end -->
+                <!-- // Basic multiple Column Form section start -->
+<section id="multiple-column-form">
+                    <div class="row match-height">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">New Category</h4>
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <form asp-action="Add" class="form">
+                                            <div class="row">
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label asp-for="CategoryCode" class="control-label"></label>
+                                                        <input asp-for="CategoryCode" class="form-control" />
+
+                                                        <span asp-validation-for="CategoryCode" class="text-danger"></span>
+                                                            
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                            <label asp-for="CategoryName" class="control-label"></label>
+                                                            <input asp-for="CategoryName" class="form-control" />
+                                                            <span asp-validation-for="CategoryCode" class="text-danger"></span>
+                                                             
+                                                    </div>
+                                                </div>
+                                               
+                                              
+                     
+                                                <div class="col-12 d-flex justify-content-end">
+                                                    <button type="submit"
+                                                            class="btn btn-primary me-1 mb-1">
+                                                        Submit
+                                                    </button>
+                                                    <button type="reset"
+                                                            class="btn btn-light-secondary me-1 mb-1">
+                                                        Reset
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- // Basic multiple Column Form section end -->
+          

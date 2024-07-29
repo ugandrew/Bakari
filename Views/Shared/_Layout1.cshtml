@@ -1,0 +1,181 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboar Bakari </title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+
+    <link rel="stylesheet" href="assets/vendors/iconly/bold.css">
+
+    <link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon">
+</head>
+
+<body>
+    <div id="app">
+        <div id="sidebar" class="active">
+            <div class="sidebar-wrapper active">
+                <div class="sidebar-header">
+                    <div class="d-flex justify-content-between">
+                        <div class="logo">
+                            <a href=""><img src="assets/images/logo/logo1.png" alt="Logo" srcset=""></a>
+                        </div>
+                        <div class="toggler">
+                            <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="sidebar-menu">
+                    <ul class="menu">
+                        <li class="sidebar-title">Menu</li>
+
+                        <li class="sidebar-item active ">
+                            <a asp-controller="Home" asp-action="Index" class='sidebar-link'>
+                                <i class="bi bi-house-fill"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item  has-sub">
+                            <a href="#" class='sidebar-link'>
+                                <i class="bi bi-cart"></i>
+                                <span>Sale</span>
+                            </a>
+                            <ul class="submenu ">
+                                <li class="submenu-item ">
+                                    <a asp-controller="Items" asp-action="Index">Sale Items</a>
+                                </li>
+                                <li class="submenu-item ">
+                                    <a asp-controller="Baskets" asp-action="Index">Basket</a>
+                                </li>
+                                <li class="submenu-item ">
+                                    <a asp-controller="Orders" asp-action="Index">Orders</a>
+                                </li>
+                              
+                            </ul>
+                        </li>
+                        <li class="sidebar-item  has-sub">
+                            <a href="#" class='sidebar-link'>
+                                <i class="bi bi-signpost-2"></i>
+                                <span>Item Categories</span>
+                            </a>
+                            <ul class="submenu ">
+                                <li class="submenu-item ">
+                                    <a asp-controller="Categories" asp-action="Add">Add Category</a>
+                                </li>
+                                <li class="submenu-item ">
+                                    <a asp-controller="Categories" asp-action="Index">Categories</a>
+                                </li>
+                              
+                            </ul>
+                        </li>
+                        <li class="sidebar-item  has-sub">
+                            <a href="#" class='sidebar-link'>
+                                <i class="bi bi-cart4"></i>
+                                <span>Items</span>
+                            </a>
+                            <ul class="submenu ">
+                                <li class="submenu-item ">
+                                    <a asp-controller="Items" asp-action="Index">Sale Items</a>
+                                </li>
+                                <li class="submenu-item ">
+                                    <a asp-controller="Items" asp-action="Create">Add  Item</a>
+                                </li>
+                                <li class="submenu-item ">
+                                    <a href="component-badge.html">Stock</a>
+                                </li>
+                              
+                            </ul>
+                        </li>
+                        <li class="sidebar-item  has-sub">
+                            <a href="#" class='sidebar-link'>
+                                <i class="bi bi-card-checklist"></i>
+                                <span>Inventory</span>
+                            </a>
+                            <ul class="submenu ">
+                                <li class="submenu-item ">
+                                    <a href="component-alert.html">List</a>
+                                </li>
+                                <li class="submenu-item ">
+                                    <a href="component-badge.html">Update</a>
+                                </li>
+                              
+                            </ul>
+                        </li>
+                        <li class="sidebar-item  has-sub">
+                            <a href="#" class='sidebar-link'>
+                                <i class="bi bi-graph-up"></i>
+                                <span>Transanctions</span>
+                            </a>
+                            <ul class="submenu ">
+                                <li class="submenu-item ">
+                                    <a href="component-alert.html">Add Category</a>
+                                </li>
+                                <li class="submenu-item ">
+                                    <a href="component-badge.html">Transact</a>
+                                </li>
+                              
+                            </ul>
+                        </li>
+
+
+                        <li class="sidebar-item active ">
+                            <a href="index.html" class='sidebar-link'>
+                                <i class="bi bi-house-x"></i>
+                                <span>Sign Out</span>
+                            </a>
+                        </li>
+                      
+
+
+
+                    </ul>
+                </div>
+                <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+            </div>
+        </div>
+        <div id="main">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
+            <div class="container">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+         
+
+            <footer>
+                <div class="footer clearfix mb-0 text-muted">
+                    <div class="float-start">
+                        <p>2024 &copy; Bakari</p>
+                    </div>
+                    <div class="float-end">
+                        <p>
+                            Product of <span class="text-primary"></span> by <a href="http://flipflop.ug">Flip Flop Technologies</a>
+                        </p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+
+    <script src="assets/vendors/apexcharts/apexcharts.js"></script>
+    <script src="assets/js/pages/dashboard.js"></script>
+
+    <script src="assets/js/main.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

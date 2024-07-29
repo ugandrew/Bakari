@@ -1,0 +1,94 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div class="card text-center">
+    <div class="card-header">
+        <h1>Welcome </h1>
+    </div>
+    <div class="card-body">
+        <h3 class="card-title"> BAKARI</h3>
+        <p class="card-text">Your Professional Sales Information Manager.</p>
+        <a   asp-action="Sale" asp-controller="Items" class="btn btn-primary">Let's Start</a>
+    </div>
+
+</div>
+
+<div class='row mb-5'>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="card border-primary mb-3">
+            <div class="card-header">
+                <i class="bi bi-archive"> Categories</i>
+            </div>
+            <div class="card-body text-primary">
+                <a asp-action="Index" asp-controller="Categories" class="btn btn-primary"> <h5 class="card-title">Item Categories</h5></a>
+                
+            </div>
+            
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card border-primary mb-3">
+            <div class="card-header">
+                <i class="bi-clipboard-data"> Items</i>
+            </div>
+            <div class="card-body text-primary">
+                <h5 class="card-title">Products & Sales</h5>
+                <p class="card-text">Select sale items and add to shopping basket .</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card border-primary mb-3">
+            <div class="card-header">
+                <i class="bi bi-basket"> Basket</i>
+            </div>
+            <div class="card-body text-primary">
+                <h5 class="card-title"> Sales Items for Ordering</h5>
+                <p class="card-text"> Verify items in shopping cart and complete order.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="card border-primary mb-3">
+            <div class="card-header">
+                <i class="bi-basket"> Orders</i>
+            </div>
+            <div class="card-body text-primary">
+                <h5 class="card-title">Patient Biometrics</h5>
+                <p class="card-text">Patient records, addresses, contacts and special needs.  </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card border-primary mb-3">
+            <div class="card-header">
+                <i class="bi-files"> Transactions</i>
+            </div>
+            <div class="card-body text-primary">
+                <h5 class="card-title">Medical Records</h5>
+                <p class="card-text">A set of organised past patient medical history .</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card border-primary mb-3">
+            <div class="card-header">
+                <i class="bi bi-receipt"> Reports</i>
+            </div>
+            <div class="card-body text-primary">
+                <h5 class="card-title">Payments & Receipts</h5>
+                <p class="card-text">Payments,Receipts, daily transancitons including financial reporting in one place.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class='row mb-5'>
+</div>
+<div class='row mb-5'>
+</div>

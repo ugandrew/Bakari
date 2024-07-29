@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Bakari.Models.Item>
+
+@{
+    ViewData["Title"] = "Sale";
+}
+
+<h1>Sale</h1>
+<form asp-action="Sale" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Sale">Back to Full List</a>
+        </p>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemCode)
+            </th>
+            <th>
+                <a asp-action="Sale" asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayNameFor(model => model.ItemName)</a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemPrice)
+            </th>
+
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemPrice)
+                </td>
+
+
+                <td>
+                    <form asp-action="AddtoBasket" asp-route-id="@item.ItemId">
+                        <input type="submit" value="Add to Basket" class="btn btn-primary rounded-pill px-3" />
+                    </form>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
