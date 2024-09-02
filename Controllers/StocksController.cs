@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Bakari.Data;
 using Bakari.Models;
+using Microsoft.Data.SqlClient;
+using Bakari.Migrations;
+using Stock = Bakari.Models.Stock;
 
 namespace Bakari.Controllers
 {
@@ -20,9 +23,43 @@ namespace Bakari.Controllers
         }
 
         // GET: Stocks
+        public async Task<IActionResult> Stocklist(string searchString, string sortOrder)
+        {
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Category" ? "cat_desc" : "Category";
+            ViewData["CurrentFilter"] = searchString;
+
+
+            var stocks = from s in _context.Stock.Include(p => p.Item)
+                         select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                stocks = stocks.Where(s => s.ItemName.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    stocks = stocks.OrderByDescending(s => s.ItemName);
+                    break;
+                case "cat_desc":
+                    stocks = stocks.OrderByDescending(s => s.Category);
+                    break;
+
+                default:
+                    stocks = stocks.OrderByDescending(s => s.LastUpDated);
+                    break;
+            }
+
+
+            return View(await stocks.ToListAsync());
+        }
+
+       
+
+        // GET: Stocks
         public async Task<IActionResult> Index()
         {
-            var bakariContext = _context.Stock.Include(s => s.Item);
+            var bakariContext = _context.Stock;
             return View(await bakariContext.ToListAsync());
         }
 
@@ -35,7 +72,7 @@ namespace Bakari.Controllers
             }
 
             var stock = await _context.Stock
-                .Include(s => s.Item)
+                .Include(p => p.Item)
                 .FirstOrDefaultAsync(m => m.StockId == id);
             if (stock == null)
             {
@@ -48,7 +85,7 @@ namespace Bakari.Controllers
         // GET: Stocks/Create
         public IActionResult Create()
         {
-            ViewData["ItemId"] = new SelectList(_context.Item, "ItemId", "ItemId");
+            ViewData["ItemId"] = new SelectList(_context.Item, "ItemId", "ItemName");
             return View();
         }
 
@@ -65,7 +102,55 @@ namespace Bakari.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ItemId"] = new SelectList(_context.Item, "ItemId", "ItemId", stock.ItemId);
+            ViewData["ItemId"] = new SelectList(_context.Category, "ItemId", "ItemName", stock.ItemId);
+            return View(stock);
+        }
+        // GET: Stocks/Update/5
+        public async Task<IActionResult> Update(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var stock = await _context.Stock.FindAsync(id);
+            if (stock == null)
+            {
+                return NotFound();
+            }
+            ViewData["ItemId"] = new SelectList(_context.Item, "ItemId", "ItemName");
+            return View(stock);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(int id, [Bind("StockId,ItemId,Quantity,Category,ItemName,CostPrice,Total,ImagePath")] Stock stock)
+        {
+            if (id != stock.StockId)
+            {
+                return NotFound();
+            }
+            stock.LastUpDated = DateTime.Now;
+            if (!ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(stock);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!StockExists(stock.StockId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Stocklist));
+            }
+            ViewData["ItemId"] = new SelectList(_context.Category, "ItemId", "ItemName", stock.ItemId);
             return View(stock);
         }
 
@@ -82,9 +167,10 @@ namespace Bakari.Controllers
             {
                 return NotFound();
             }
-            ViewData["ItemId"] = new SelectList(_context.Item, "ItemId", "ItemId", stock.ItemId);
+            ViewData["ItemId"] = new SelectList(_context.Item, "ItemId", "ItemName");
             return View(stock);
         }
+       
 
         // POST: Stocks/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -118,7 +204,7 @@ namespace Bakari.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ItemId"] = new SelectList(_context.Item, "ItemId", "ItemId", stock.ItemId);
+            ViewData["ItemId"] = new SelectList(_context.Category, "ItemId", "ItemName", stock.ItemId);
             return View(stock);
         }
 

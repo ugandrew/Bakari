@@ -3,7 +3,7 @@
 *@
 @{
 }
-@model Bakari.Models.Category
+@model Bakari.Models.Customer
 
 @{
     ViewData["Title"] = "Add";
@@ -23,7 +23,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">New Category</h4>
+                                    <h4 class="card-title">New Customer</h4>
                                 </div>
                                 <div class="card-content">
                                     <div class="card-body">
@@ -32,18 +32,18 @@
                                             <div class="row">
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
-                                                        <label asp-for="CategoryCode" class="control-label"></label>
-                                                        <input asp-for="CategoryCode" class="form-control" />
+                                                        <label asp-for="CustomerName" class="control-label"></label>
+                                                        <input asp-for="CustomerName" class="form-control" />
 
-                                                        <span asp-validation-for="CategoryCode" class="text-danger"></span>
+                                                        <span asp-validation-for="CustomerName" class="text-danger"></span>
                                                             
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
-                                                            <label asp-for="CategoryName" class="control-label"></label>
-                                                            <input asp-for="CategoryName" class="form-control" />
-                                                            <span asp-validation-for="CategoryCode" class="text-danger"></span>
+                                                            <label asp-for="PhoneNumber" class="control-label"></label>
+                                                            <input asp-for="PhoneNumber" class="form-control" />
+                                                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                                                              
                                                     </div>
                                                 </div>

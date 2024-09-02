@@ -5,12 +5,13 @@
 }
 
 <h1>Sale</h1>
-<form asp-action="Sale" method="get">
+<form asp-action="Salelist" method="get">
     <div class="form-actions no-color">
         <p>
             Find by name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
             <input type="submit" value="Search" class="btn btn-default" /> |
-            <a asp-action="Sale">Back to Full List</a>
+            <a asp-action="Add">Add New Item</a> |
+            <a asp-action="Salelist">Back to Full List</a>
         </p>
     </div>
 </form>
@@ -22,10 +23,10 @@
                 @Html.DisplayNameFor(model => model.ItemCode)
             </th>
             <th>
-                <a asp-action="Sale" asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayNameFor(model => model.ItemName)</a>
+                <a asp-action="Salelist" asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayNameFor(model => model.ItemName)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Category)
+                <a asp-action="Salelist" asp-route-sortOrder="@ViewData["CatSortParm"]">@Html.DisplayNameFor(model => model.Category)</a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ItemPrice)

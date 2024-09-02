@@ -24,6 +24,33 @@ namespace Bakari.Controllers
         {
             return View(await _context.Order.ToListAsync());
         }
+        public async Task<IActionResult> OrderList(string searchString, string sortOrder)
+        {
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["CurrentFilter"] = searchString;
+
+
+            var orders = from s in _context.Order
+                        select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                orders = orders.Where(s => s.OrderNumber.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    orders = orders.OrderByDescending(s => s.OrderDate);
+                    break;
+              
+
+                default:
+                    orders = orders.OrderByDescending(s => s.OrderDate);
+                    break;
+            }
+
+
+            return View(await orders.ToListAsync());
+        }
 
         // GET: Orders/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -61,6 +88,56 @@ namespace Bakari.Controllers
                 _context.Add(order);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+            }
+            return View(order);
+        }
+        public async Task<IActionResult> OrderDiscount(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var order = await _context.Order.FindAsync(id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return View(order);
+        }
+
+        // POST: Orders/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> OrderDiscount(int id, [Bind("OrderId,OrderDate,OrderNumber,SubTotal,Discount,OrderTotal,Orderby")] Order order)
+        {
+            if (id != order.OrderId)
+            {
+                return NotFound();
+            }
+            order.OrderTotal = order.SubTotal - order.Discount;
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(order);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!OrderExists(order.OrderId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(OrderList));
             }
             return View(order);
         }

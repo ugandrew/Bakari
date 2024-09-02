@@ -19,38 +19,107 @@ namespace Bakari.Controllers
         {
             _context = context;
         }
-        // GET: Sale
-        public async Task<IActionResult> Sale(string searchString, string sortOrder)
+        // GET: Items/Create
+        public IActionResult Add()
         {
-                ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-                //ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
-                ViewData["CurrentFilter"] = searchString;
-
-
-                var products = from s in _context.Item.Include(p => p.Category)
-                               select s;
-                if (!String.IsNullOrEmpty(searchString))
-                {
-                    products = products.Where(s => s.ItemName.Contains(searchString));
-                }
-                switch (sortOrder)
-                {
-                    case "name_desc":
-                        products = products.OrderByDescending(s => s.ItemName);
-                        break;
-
-
-                    default:
-                        products = products.OrderBy(s => s.ItemName);
-                        break;
-                }
-
-
-                return View(await products.ToListAsync());
+            ViewData["CategoryId"] = new SelectList(_context.Category, "CategoryId", "CategoryName");
+            return View();
         }
 
-       //Add to Basket
-       public async Task<IActionResult> AddtoBasket(int? id)
+        // POST: Items/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add([Bind("ItemId,CategoryId,ItemCode,ItemName,Description,ItemPrice,ImagePath")] Item item)
+        {
+            if (!ModelState.IsValid)
+            {
+                _context.Add(item);
+                await _context.SaveChangesAsync();
+            }
+            if (await CreateStockAsync(item))
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+
+            ViewData["CategoryId"] = new SelectList(_context.Category, "CategoryId", "CategoryName", item.CategoryId);
+            return View(item);
+        }
+        //Creates stock of new itne
+        public async Task<bool> CreateStockAsync (Item item)
+        {
+            if (item == null)
+            {
+                return false;
+            }
+
+            var cat = await _context.Category.FindAsync(item.CategoryId);
+            if (cat == null)
+            {
+                return false;
+            }
+            Stock stock = new()
+            {
+                    ItemId=item.ItemId,
+                   ItemName = item.ItemName,
+                   Category = cat.CategoryName,
+                   Quantity = 0,
+                   CostPrice = 0,
+                   Total = 0,
+                   SalePrice=item.ItemPrice,
+                   Item=item,
+                   LastUpDated = DateTime.UtcNow
+
+
+            };
+
+               if (!ModelState.IsValid)
+               {
+                   _context.Add(stock);
+                   await _context.SaveChangesAsync();
+
+                return true;
+
+               }
+            return false;
+
+        }
+        // GET: Sale
+        public async Task<IActionResult> Salelist(string searchString, string sortOrder)
+        {
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Category" ? "cat_desc" : "Category";
+            ViewData["CurrentFilter"] = searchString;
+
+
+            var items = from s in _context.Item.Include(p => p.Category)
+                         select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                items = items.Where(s => s.ItemName.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    items = items.OrderByDescending(s => s.ItemName);
+                    break;
+                case "cat_desc":
+                    items = items.OrderByDescending(s => s.Category.CategoryName);
+                    break;
+
+                default:
+                    items= items.OrderByDescending(s => s.ItemPrice);
+                    break;
+            }
+
+
+            return View(await items.ToListAsync());
+        }
+
+        //Add to Basket
+        public async Task<IActionResult> AddtoBasket(int? id)
             {
                 if (id == null || _context.Item == null)
                 {
@@ -69,9 +138,9 @@ namespace Bakari.Controllers
                         _carts = ViewData["CartCounter"] as List<Cart>;
                     }
                     */
-                    //counter++;
-                    //Get list of items in basket
-                    var BasketItems = _context.Basket.ToList();
+                //counter++;
+                //Get list of items in basket
+                var BasketItems = _context.Basket.ToList();
                     if (BasketItems.Any(model => model.ItemId == id))
                     {
                         var basket = BasketItems.Single(model => model.ItemId == id);
@@ -118,7 +187,7 @@ namespace Bakari.Controllers
                     //ViewData["BasketCounter"] = counter;
                     //ViewData["Cart"] = _carts;
 
-                    return RedirectToAction(nameof(Sale));
+                    return RedirectToAction(nameof(Salelist));
                 }
                 else
                 {
@@ -179,7 +248,7 @@ namespace Bakari.Controllers
         // GET: Items/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Category, "CategoryId", "CategoryId");
+            ViewData["CategoryId"] = new SelectList(_context.Category, "CategoryId", "CategoryName");
             return View();
         }
 
@@ -194,7 +263,30 @@ namespace Bakari.Controllers
             {
                 _context.Add(item);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //create stock
+                Stock stock = new()
+                {
+
+                        ItemId= item.ItemId,
+                        ItemName = item.ItemName,
+                        Category=item.Category.CategoryName,
+                        Quantity = 0,
+                        CostPrice = 0,
+                        Total = 0,
+                        SalePrice=item.ItemPrice,
+                        Item=item,
+                        LastUpDated=DateTime.UtcNow
+                   
+
+                };
+
+                if (ModelState.IsValid)
+                {
+                    _context.Add(stock);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+               
             }
             ViewData["CategoryId"] = new SelectList(_context.Category, "CategoryId", "CategoryId", item.CategoryId);
             return View(item);

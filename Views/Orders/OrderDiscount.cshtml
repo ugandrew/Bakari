@@ -1,0 +1,94 @@
+﻿@model Bakari.Models.Order
+
+@{
+    ViewData["Title"] = "Discount";
+}
+
+<h1>Order</h1>
+
+
+<hr />
+<section id="multiple-column-form">
+    <div class="row match-height">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Discount</h4>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <form asp-action="OrderDiscount" class="form">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="OrderId" />
+                            <input type="hidden" asp-for="OrderTotal" />
+                       
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label asp-for="OrderDate" class="control-label"></label>
+                                        <input asp-for="OrderDate" class="form-control" readonly="true"/>
+                                        <span asp-validation-for="OrderDate" class="text-danger"></span>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label asp-for="OrderNumber" class="control-label"></label>
+                                        <input asp-for="OrderNumber" class="form-control" readonly="true"/>
+                                        <span asp-validation-for="OrderNumber" class="text-danger"></span>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label asp-for="SubTotal" class="control-label"></label>
+                                        <input asp-for="SubTotal" class="form-control" readonly="true" />
+                                        <span asp-validation-for="SubTotal" class="text-danger"></span>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label asp-for="Discount" class="control-label"></label>
+                                        <input asp-for="Discount" class="form-control" />
+                                        <span asp-validation-for="Discount" class="text-danger"></span>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label asp-for="Orderby" class="control-label"></label>
+                                        <input asp-for="Orderby" class="form-control" />
+                                        <span asp-validation-for="Orderby" class="text-danger"></span>
+
+                                    </div>
+                                </div>
+                                
+                               
+                                <div class="col-12 d-flex justify-content-end">
+                                    <button type="submit"
+                                            class="btn btn-primary me-1 mb-1">
+                                        Add Discount
+                                    </button>
+                                    <button type="reset"
+                                            class="btn btn-light-secondary me-1 mb-1">
+                                        Reset
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div>
+    <a asp-action="StockList">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

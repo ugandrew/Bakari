@@ -20,5 +20,18 @@ namespace Bakari.Models
 
 
         public required Item Item { get; set; }
+        public virtual ICollection<Basket>? Baskets { get; set; }
+        [DisplayFormat(DataFormatString = "{0: #,#}", ApplyFormatInEditMode = true)]
+        public decimal? TotalBasket
+        {
+
+
+            get
+            {
+                if (Baskets == null) { return 0; }
+                return Baskets.Sum(x => x.TotalPrice);
+            }
+
+        }
     }
 }

@@ -17,5 +17,7 @@ namespace Bakari.Models
 
         [DisplayFormat(DataFormatString = "{0:#,#}", ApplyFormatInEditMode = true)]
         public decimal OrderTotal { get; set; }
+
+        public  string? Orderby { get; set; }    
     }
 }

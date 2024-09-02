@@ -1,0 +1,86 @@
+﻿@model Bakari.Models.Stock
+
+@{
+    ViewData["Title"] = "Update";
+}
+
+<h1>Update</h1>
+
+<h4>Stock</h4>
+<hr />
+<section id="multiple-column-form">
+    <div class="row match-height">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Change</h4>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <form asp-action="Update" class="form">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="StockId" />
+                            <input type="hidden" asp-for="ItemId" />
+                            <input type="hidden" asp-for="Item" />
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label asp-for="ItemName" class="control-label"></label>
+                                        <input asp-for="ItemName" class="form-control" readonly="true"/>
+                                        <span asp-validation-for="ItemName" class="text-danger"></span>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label asp-for="Category" class="control-label"></label>
+                                        <input asp-for="Category" class="form-control" readonly="true"/>
+                                        <span asp-validation-for="Quantity" class="text-danger"></span>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label asp-for="Quantity" class="control-label"></label>
+                                        <input asp-for="Quantity" class="form-control" />
+                                        <span asp-validation-for="Quantity" class="text-danger"></span>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label asp-for="CostPrice" class="control-label"></label>
+                                        <input asp-for="CostPrice" class="form-control" />
+                                        <span asp-validation-for="CostPrice" class="text-danger"></span>
+
+                                    </div>
+                                </div>
+                                
+                               
+                                <div class="col-12 d-flex justify-content-end">
+                                    <button type="submit"
+                                            class="btn btn-primary me-1 mb-1">
+                                        Submit
+                                    </button>
+                                    <button type="reset"
+                                            class="btn btn-light-secondary me-1 mb-1">
+                                        Reset
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div>
+    <a asp-action="StockList">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

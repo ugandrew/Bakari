@@ -11,7 +11,7 @@ namespace Bakari.Models
     {
         public int Id { get; set; }
 
-
+        
         public TransanctionType Type { get; set; } // CashIn or CashOut
 
         [DisplayFormat(DataFormatString = "{0:#,#}", ApplyFormatInEditMode = true)]
@@ -21,6 +21,7 @@ namespace Bakari.Models
 
         [DataType(DataType.Date)]
         public DateTime Date { get; set; } = DateTime.UtcNow;
+       
         public virtual ICollection<Transanction>? Transanctions { get; set; }
         public string? PerformedBy { get; set; }
         public decimal? Balance

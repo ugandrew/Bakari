@@ -4,6 +4,7 @@ using Bakari.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,13 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bakari.Migrations
 {
     [DbContext(typeof(BakariContext))]
-    partial class BakariContextModelSnapshot : ModelSnapshot
+    [Migration("20240819184246_Bas")]
+    partial class Bas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -173,9 +176,6 @@ namespace Bakari.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderDetailId"));
 
-                    b.Property<int?>("CustomerId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ItemId")
                         .HasColumnType("int");
 
@@ -195,8 +195,6 @@ namespace Bakari.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("OrderDetailId");
-
-                    b.HasIndex("CustomerId");
 
                     b.HasIndex("ItemId");
 
@@ -260,6 +258,9 @@ namespace Bakari.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -277,6 +278,8 @@ namespace Bakari.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
 
                     b.HasIndex("TransanctionId");
 
@@ -311,10 +314,6 @@ namespace Bakari.Migrations
 
             modelBuilder.Entity("Bakari.Models.OrderDetail", b =>
                 {
-                    b.HasOne("Bakari.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId");
-
                     b.HasOne("Bakari.Models.Item", "Item")
                         .WithMany()
                         .HasForeignKey("ItemId")
@@ -326,8 +325,6 @@ namespace Bakari.Migrations
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Customer");
 
                     b.Navigation("Item");
 
@@ -347,9 +344,17 @@ namespace Bakari.Migrations
 
             modelBuilder.Entity("Bakari.Models.Transanction", b =>
                 {
+                    b.HasOne("Bakari.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Bakari.Models.Transanction", null)
                         .WithMany("Transanctions")
                         .HasForeignKey("TransanctionId");
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("Bakari.Models.Basket", b =>

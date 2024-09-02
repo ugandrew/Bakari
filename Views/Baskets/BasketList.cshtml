@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Bakari.Models.Basket>
+
+@{
+    ViewData["Title"] = "Index";
+
+}
+
+<h1>TOTAL BILL</h1>
+<h3 style="background:blue">UGX @ViewBag.baskettotal.ToString(format: "#,##0")</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Item)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UnitPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalPrice)
+            </th>
+          
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Item.ItemName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalPrice)
+                </td>
+                
+                <td>
+                    <a class="fa fa-chevron-circle-up" asp-route-id="@item.BasketId" asp-controller="Baskets" asp-action="Increase">    </a> 
+                    <a class="fa fa-trash-o" aria-hidden="true" asp-route-id="@item.BasketId" asp-controller="Baskets" asp-action="Remove">    </a> 
+                    <a class="fa fa-chevron-circle-down" aria-hidden="true" asp-route-id="@item.BasketId" asp-controller="Baskets" asp-action="Reduce"> </a>
+                </td>
+        </tr>
+}       
+        <tr>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td>
+              
+            </td>
+            <td>
+                <form asp-action="CheckOut" >
+                    <input type="submit" value="Check Out" class="btn btn-primary rounded-pill px-3" />
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>

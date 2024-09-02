@@ -21,5 +21,6 @@ namespace Bakari.Data
         public DbSet<Bakari.Models.Order> Order { get; set; } = default!;
         public DbSet<Bakari.Models.OrderDetail> OrderDetail { get; set; } = default!;
         public DbSet<Bakari.Models.Transanction> Transanction { get; set; } = default!;
+        public DbSet<Bakari.Models.Customer> Customer { get; set; } = default!;
     }
 }

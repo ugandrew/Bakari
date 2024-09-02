@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Bakari.Models.Customer>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Add">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                <a class="fa fa-edit" aria-hidden="true" asp-route-id="@item.CustomerId" asp-action="Edit">    </a> |
+                <a class="fa fa-trash-o" aria-hidden="true" asp-route-id="@item.CustomerId"  asp-action="Delete">    </a> |
+               
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

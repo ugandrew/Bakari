@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Bakari.Models.Stock>
+
+@{
+    ViewData["Title"] = "Inventory";
+    decimal TotalAmount = 0.00M;
+    decimal TotalItems = 0;
+}
+
+<h1>Inventory</h1>
+<form asp-action="StockList" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Salelist" asp-controller="Items"> Sales</a> |
+            <a asp-action="Stocklist">Back to Full List</a>
+        </p>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="StockList" asp-route-sortOrder="@ViewData["CatSortParm"]">@Html.DisplayNameFor(model => model.Category)</a>
+            </th>
+            <th>
+                <a asp-action="StockList" asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayNameFor(model => model.Item)</a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CostPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastUpDated)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            TotalAmount += item.Total;
+            TotalItems += item.Quantity;
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Item.ItemName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CostPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastUpDated)
+                </td>
+                <td>
+                   
+                    <a class="fa fa-edit" aria-hidden="true" asp-route-id="@item.StockId" asp-action="Update"> </a>
+                    
+               
+                </td>
+            </tr>
+        }
+    </tbody>
+   
+</table>
