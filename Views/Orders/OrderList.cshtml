@@ -12,7 +12,7 @@
             Find by OrderNumber: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
             <input type="submit" value="Search" class="btn btn-default" /> |
            
-            <a asp-action="OrderLsit">Back to Full List</a>
+            <a asp-action="OrderList">Back to Full List</a>
         </p>
     </div>
 </form>
@@ -58,8 +58,8 @@
             </td>
             <td>
                 <a class="fa fa-cart-arrow-down" aria-hidden="true" asp-route-id="@item.OrderId" asp-action="OrderDiscount"> </a> 
-                <a class="fa fa-user-plus" aria-hidden="true" asp-route-id="@item.OrderId" asp-action="OrderCustomer"> </a> 
-                
+                <a class="fa fa-user-plus" aria-hidden="true" asp-route-id="@item.OrderId"  asp-action="OrderCustomer"> </a>
+                <a class="fa fa-close" aria-hidden="true" asp-route-id="@item.OrderId"  asp-action="CancelOrder"> </a>
             </td>
         </tr>
 }

@@ -1,7 +1,7 @@
 ﻿@model Bakari.Models.Order
 
-@{
     ViewData["Title"] = "Delete";
+    var details = ViewBag.Details;
 }
 
 <h1>Delete</h1>
@@ -42,6 +42,10 @@
             @Html.DisplayFor(model => model.OrderTotal)
         </dd>
     </dl>
+ @{
+
+ }
+   
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="OrderId" />

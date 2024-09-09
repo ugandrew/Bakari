@@ -8,7 +8,7 @@ namespace Bakari.Models
 
         public int OrderId { get; set; }
         public int ItemId { get; set; }
-        public int? CustomerId { get; set; }
+        
         [DisplayFormat(DataFormatString = "{0: #,#}", ApplyFormatInEditMode = true)]
         public decimal Quantity { get; set; }
         [DisplayFormat(DataFormatString = "{0: #,#}", ApplyFormatInEditMode = true)]
@@ -19,7 +19,7 @@ namespace Bakari.Models
 
         public string? Orderby { get; set; }
         public required Order Order { get; set; }
-        public Customer? Customer { get; set; }
+      
         public required Item Item { get; set; }
     }
 }

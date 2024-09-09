@@ -40,7 +40,7 @@ namespace Bakari.Controllers
             }
             if (await CreateStockAsync(item))
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Salelist));
             }
 
 

@@ -25,7 +25,7 @@ namespace Bakari.Models
 
         public string? ImagePath { get; set; }
 
-        public Item Item { get; set; }
+        public required Item Item { get; set; }
         public required DateTime LastUpDated { get; set; }
        
     }

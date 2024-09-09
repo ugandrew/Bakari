@@ -22,7 +22,7 @@ namespace Bakari.Controllers
         // GET: OrderDetails
         public async Task<IActionResult> Index()
         {
-            var bakariContext = _context.OrderDetail.Include(o => o.Customer).Include(o => o.Item).Include(o => o.Order);
+            var bakariContext = _context.OrderDetail.Include(o => o.Item).Include(o => o.Order);
             return View(await bakariContext.ToListAsync());
         }
 
@@ -35,7 +35,6 @@ namespace Bakari.Controllers
             }
 
             var orderDetail = await _context.OrderDetail
-                .Include(o => o.Customer)
                 .Include(o => o.Item)
                 .Include(o => o.Order)
                 .FirstOrDefaultAsync(m => m.OrderDetailId == id);
@@ -46,11 +45,37 @@ namespace Bakari.Controllers
 
             return View(orderDetail);
         }
+        // GET: OrderDetails/Create
+        public IActionResult CustomerOrder()
+        {
+           
+            ViewData["ItemId"] = new SelectList(_context.Item, "ItemId", "ItemName");
+            ViewData["OrderId"] = new SelectList(_context.Order, "OrderId", "OrderNumber");
+            return View();
+        }
 
+        // POST: OrderDetails/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CustomerOrder([Bind("OrderDetailId,OrderId,ItemId,,Quantity,UnitPrice,TotalPrice,Orderby")] OrderDetail orderDetail)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(orderDetail);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+          
+            ViewData["ItemId"] = new SelectList(_context.Item, "ItemId", "ItemName", orderDetail.ItemId);
+            ViewData["OrderId"] = new SelectList(_context.Order, "OrderId", "OrderNumber", orderDetail.OrderId);
+            return View(orderDetail);
+        }
         // GET: OrderDetails/Create
         public IActionResult Create()
         {
-            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "CustomerId");
+          
             ViewData["ItemId"] = new SelectList(_context.Item, "ItemId", "ItemId");
             ViewData["OrderId"] = new SelectList(_context.Order, "OrderId", "OrderId");
             return View();
@@ -69,7 +94,7 @@ namespace Bakari.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "CustomerId", orderDetail.CustomerId);
+            
             ViewData["ItemId"] = new SelectList(_context.Item, "ItemId", "ItemId", orderDetail.ItemId);
             ViewData["OrderId"] = new SelectList(_context.Order, "OrderId", "OrderId", orderDetail.OrderId);
             return View(orderDetail);
@@ -88,7 +113,7 @@ namespace Bakari.Controllers
             {
                 return NotFound();
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "CustomerId", orderDetail.CustomerId);
+           
             ViewData["ItemId"] = new SelectList(_context.Item, "ItemId", "ItemId", orderDetail.ItemId);
             ViewData["OrderId"] = new SelectList(_context.Order, "OrderId", "OrderId", orderDetail.OrderId);
             return View(orderDetail);
@@ -99,7 +124,7 @@ namespace Bakari.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OrderDetailId,OrderId,ItemId,CustomerId,Quantity,UnitPrice,TotalPrice,Orderby")] OrderDetail orderDetail)
+        public async Task<IActionResult> Edit(int id, [Bind("OrderDetailId,OrderId,ItemId,Quantity,UnitPrice,TotalPrice,Orderby")] OrderDetail orderDetail)
         {
             if (id != orderDetail.OrderDetailId)
             {
@@ -126,7 +151,7 @@ namespace Bakari.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "CustomerId", orderDetail.CustomerId);
+           
             ViewData["ItemId"] = new SelectList(_context.Item, "ItemId", "ItemId", orderDetail.ItemId);
             ViewData["OrderId"] = new SelectList(_context.Order, "OrderId", "OrderId", orderDetail.OrderId);
             return View(orderDetail);
@@ -141,7 +166,6 @@ namespace Bakari.Controllers
             }
 
             var orderDetail = await _context.OrderDetail
-                .Include(o => o.Customer)
                 .Include(o => o.Item)
                 .Include(o => o.Order)
                 .FirstOrDefaultAsync(m => m.OrderDetailId == id);

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Bakari.Models.Transanction>
+
+@{
+    ViewData["Title"] = "Wallet";
+}
+
+<h1>Wallet</h1>
+
+<h3 style="color: red;">UGX @ViewBag.balance.ToString(format: "#,##0")</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.PerformedBy)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PerformedBy)
+            </td>
+          
+        </tr>
+}
+    </tbody>
+</table>

@@ -83,26 +83,27 @@ namespace Bakari.Controllers
             {
                 basket.Quantity++;
                 basket.TotalPrice = basket.Quantity * basket.UnitPrice;
-            }
-            if (ModelState.IsValid)
-            {
-                try
+                if (ModelState.IsValid)
                 {
-                    _context.Update(basket);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BasketExists(basket.BasketId))
+                    try
                     {
-                        return NotFound();
+                        _context.Basket.Update(basket);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!BasketExists(basket.BasketId))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
                 }
             }
+          
 
 
             return RedirectToAction(nameof(BasketList));
@@ -126,35 +127,36 @@ namespace Bakari.Controllers
             {
                 basket.Quantity--;
                 basket.TotalPrice = basket.Quantity *basket.UnitPrice;
-            }
-            if (basket.Quantity < 1)
-            {
-                _context.Basket.Remove(basket);
-                await _context.SaveChangesAsync();
-            }
-            else
-            {
-                if (ModelState.IsValid)
+                if (basket.Quantity < 1)
                 {
-                    try
-                    {
-                        _context.Update(basket);
-                        await _context.SaveChangesAsync();
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (!BasketExists(basket.BasketId))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
+                    _context.Basket.Remove(basket);
+                    await _context.SaveChangesAsync();
                 }
+                else
+                {
+                    if (ModelState.IsValid)
+                    {
+                        try
+                        {
+                            _context.Update(basket);
+                            await _context.SaveChangesAsync();
+                        }
+                        catch (DbUpdateConcurrencyException)
+                        {
+                            if (!BasketExists(basket.BasketId))
+                            {
+                                return NotFound();
+                            }
+                            else
+                            {
+                                throw;
+                            }
+                        }
+                    }
 
+                }
             }
+
 
             return RedirectToAction(nameof(BasketList));
 
@@ -431,11 +433,11 @@ namespace Bakari.Controllers
             Order order = new Order();
 
             order.OrderDate = DateTime.Now;
-            order.OrderNumber = order.OrderDate.ToString("yymmmddHHmmss");
+            order.OrderNumber = order.OrderDate.ToString("yyMMddHHmmss");
             order.Discount = 0;
             order.SubTotal = totalbask;
             order.OrderTotal = totalbask - order.Discount;
-            order.Orderby = "";
+            order.Orderby = "admin";
             if (ModelState.IsValid)
             {
                 _context.Add(order);
@@ -448,6 +450,29 @@ namespace Bakari.Controllers
         }
         public async Task<bool> AddOrderDetail<AddOrderDetail>(Order order)
         {
+            if (_context.Basket.IsNullOrEmpty())
+            {
+                if (_context.Customer.IsNullOrEmpty())
+                {  //create custumer
+                    Customer customer = new()
+                    {
+                        CustomerId = 1,
+                        CustomerName = "Walk-In",
+                        PhoneNumber = "0000000"
+
+
+
+                    };
+
+                    if (ModelState.IsValid)
+                    {
+                        _context.Customer.Add(customer);
+                        await _context.SaveChangesAsync();
+
+                    }
+                }
+
+            }
 
             if (_context.Basket != null)
             {
@@ -462,8 +487,11 @@ namespace Bakari.Controllers
                         UnitPrice = item.UnitPrice,
                         TotalPrice = item.TotalPrice,
                         Item = item.Item,
-                        Orderby= order.Orderby
+                        Orderby= order.Orderby,
                         
+
+
+
                     };
 
                     if (ModelState.IsValid)

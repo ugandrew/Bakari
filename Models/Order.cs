@@ -5,6 +5,7 @@ namespace Bakari.Models
     public class Order
     {
         public int OrderId { get; set; }
+        public int? CustomerId { get; set; } 
 
         public DateTime OrderDate { get; set; }
         public string? OrderNumber { get; set; }
@@ -17,7 +18,8 @@ namespace Bakari.Models
 
         [DisplayFormat(DataFormatString = "{0:#,#}", ApplyFormatInEditMode = true)]
         public decimal OrderTotal { get; set; }
-
+        public Customer? Customer { get; set; }  
+        public bool Debtor { get; set; }    
         public  string? Orderby { get; set; }    
     }
 }
