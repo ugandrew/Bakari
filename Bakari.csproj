@@ -7,6 +7,7 @@
     <Company>Flip Flop Technologies</Company>
     <PackageIcon>bakarilogo.png</PackageIcon>
     <ApplicationIcon>bakarilogo.ico</ApplicationIcon>
+    <UserSecretsId>bf06462a-e5d4-4002-84cc-b46aef74be10</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,7 +27,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.4" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.5" />
   </ItemGroup>
 
 </Project>

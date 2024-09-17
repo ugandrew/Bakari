@@ -1,0 +1,14 @@
+﻿@model IEnumerable<Bakari.Models.Basket>
+
+@{
+    ViewData["Title"] = "Empty";
+}
+
+<h1>Oops the basket is empty!!</h1>
+
+<p>
+   
+    <form asp-controller="Items" asp-action="SaleList" >
+        <input type="submit" value="Add to Basket" class="btn btn-primary rounded-pill px-3" />
+    </form>
+</p>

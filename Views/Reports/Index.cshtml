@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Bakari.Models.OrderDetail>
+
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<h1>Orders</h1>
+
+<p>
+    <form asp-action="Index" method="get">
+        <div class="form-actions no-color">
+            <p>
+                Find by Item Name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+                <input type="submit" value="Search" class="btn btn-default" /> |
+
+                <a asp-action="Index">Back to Full List</a>
+            </p>
+        </div>
+    </form>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">@Html.DisplayNameFor(model => model.Order)</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayNameFor(model => model.Item)</a>
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.UnitPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.TotalPrice)
+            </th>
+          
+           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Order.OrderDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Item.ItemName)
+                </td>
+            
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitPrice)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalPrice)
+            </td>
+            
+          
+        </tr>
+}
+    </tbody>
+</table>
